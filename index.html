@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Country Coder</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" />
+  </head>
+  <body>
+    <div class="title">
+      <h1>Country <strong>Coder</strong></h1>
+    </div>
+    <div class="container">
+      <div class="country">
+        <div class="country-top">
+          <div class="top-text">
+            <h3>Enter a Country Code</h3>
+            <p>To find out what country it belongs to:</p>
+          </div>
+          <div class="top-icon"><i class="fas fa-map-pin fa-5x"></i></div>
+        </div>
+        <div class="country-bottom">
+          <form id="get-country">
+            <div class="country-text">
+              <span><i class="fas fa-plus fa-2x"></i></span> <input type="text" id="country-text" />
+            </div>
+            <input type="submit" value="What Country Is This?" />
+            <ul id="country-output"></ul>
+          </form>
+        </div>
+      </div>
+
+      <div class="code">
+        <div class="code-top">
+          <div class="top-text">
+            <h3>Select a Country</h3>
+            <p>To find out its country code:</p>
+          </div>
+          <div class="top-icon"><i class="far fa-flag fa-5x"></i></div>
+        </div>
+        <div class="code-bottom">
+          <select id="country-select">
+            <option value="">Select a country</option>
+          </select>
+          <h2 id="code-output"></h2>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
