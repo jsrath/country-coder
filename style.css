@@ -2,7 +2,6 @@ body {
   margin: 0;
   padding: 0;
   background: #fff url('./images/background.jpg') center center no-repeat;
-  background-size: cover;
   font-family: 'Roboto', sans-serif;
   color: #fff;
   font-weight: 300;
