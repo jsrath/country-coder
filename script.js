@@ -1,38 +1,36 @@
 function getCountryName(event) {
   event.preventDefault();
   const countryOutput = document.querySelector('#country-output');
-  let code = document.querySelector('#country-text').value;
-
-  countryOutput.innerHTML = '';
-
-  fetch(`https://restcountries.eu/rest/v2/callingcode/${code}`)
-    .then(result => result.json())
-    .then(result => {
-      result.map(country => (countryOutput.innerHTML += `<li>${country.name}</li>`));
-    })
-    .catch(() => {
-      countryOutput.innerHTML = `<h3>Country Not Found</h3>`;
-    });
+  const code = document.querySelector('#country-text').value;
+  const targetCountry = JSON.parse(window.localStorage.getItem('country-coder')).filter(country => parseCountryCode(country) === `+${code}`)[0]
+  countryOutput.innerHTML = `<li>${targetCountry?.name?.common ?? 'Invalid country code'}</li>`
 }
 
-function getCountries() {
+async function getCountries() {
+  const response = await fetch('https://restcountries.com/v3.1/all');
+  const json = await response.json();
+  const sortedCountries = json.sort((a, b) => a.name.common.localeCompare(b.name.common));
+  window.localStorage.setItem('country-coder', JSON.stringify(sortedCountries));
+  setCountryOptions();
+}
+
+function setCountryOptions() {
   const countrySelect = document.querySelector('#country-select');
-  fetch(`https://restcountries.eu/rest/v2/all`)
-    .then(result => result.json())
-    .then(result => {
-      result.map(country => (countrySelect.innerHTML += `<option value="${country.name}">${country.name}</option>`));
-    });
+  const countries = JSON.parse(window.localStorage.getItem('country-coder')); 
+  countries.map(country => (countrySelect.innerHTML += `<option value="${country.name.common}">${country.name.common}</option>`));
 }
 
-function getCallingCode(event) {
+async function getCallingCode(event) {
   const codeOuput = document.querySelector('#code-output');
-  let country = event.target.value;
-  fetch(`https://restcountries.eu/rest/v2/name/${country}?fullText=true`)
-    .then(result => result.json())
-    .then(result => {
-      codeOuput.style.display = 'inline';
-      codeOuput.innerText = result[0].callingCodes[0];
-    });
+  const selectedCountry = event.target.value;
+  const countryData = JSON.parse(window.localStorage.getItem('country-coder')).filter(country => country.name.common === selectedCountry)[0]; 
+  const parsedCountryCode = parseCountryCode(countryData); 
+  codeOuput.style.display = 'inline';
+  codeOuput.innerText = parsedCountryCode; 
+}
+
+function parseCountryCode(countryData) {
+  return `${countryData.idd.root}${countryData?.idd?.suffixes?.[0] ?? ''}`;
 }
 
 document.querySelector('#get-country').addEventListener('submit', getCountryName);
